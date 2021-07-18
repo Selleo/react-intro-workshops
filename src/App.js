@@ -21,7 +21,21 @@ const todos = [
 const App = () => {
   return (
     <div className="main__wrapper">
-      <h1 className="main__title">👋 Hello from Selleo</h1>
+      <h1 className="main__title">Todo App</h1>
+
+      <p className="main__description">
+        Here you can store all the things you need to complete
+      </p>
+
+      <div className="main__form-wrapper">
+        <input
+          type="text"
+          className="main__form-input"
+          placeholder="Do the dishes"
+        />
+
+        <button className="main__form-submit">Add Todo</button>
+      </div>
     </div>
   );
 };
