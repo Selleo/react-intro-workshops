@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IconArchive, IconTrash } from "@tabler/icons";
 
 // Hi!
 
@@ -10,15 +11,22 @@ import { useState } from "react";
 
 const initialState = {
   todos: [
-    { title: "Learn ReactJS", isDone: false, isArchived: false },
-    { title: "Attend ReactJS workshops", isDone: true, isArchived: false },
-    { title: "Learn Ruby on Rails", isDone: true, isArchived: false },
+    { id: 1, title: "Learn ReactJS", isDone: false, isArchived: false },
     {
+      id: 2,
+      title: "Attend ReactJS workshops",
+      isDone: true,
+      isArchived: false,
+    },
+    { id: 3, title: "Learn Ruby on Rails", isDone: true, isArchived: false },
+    {
+      id: 4,
       title: "Attend Ruby on Rails workshops",
       isDone: true,
       isArchived: false,
     },
     {
+      id: 5,
       title: "This one shouldn't be visible - archived",
       isDone: true,
       isArchived: true,
@@ -30,12 +38,6 @@ const App = () => {
   const [todos, setTodos] = useState(initialState.todos);
   const [inputValue, setInputValue] = useState("");
 
-  const todosList = todos
-    .filter(({ isArchived }) => !isArchived)
-    .map(({ title, isDone }) => (
-      <li className={`todo ${isDone && "-done"}`}>{title}</li>
-    ));
-
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -46,6 +48,47 @@ const App = () => {
     addTodo(inputValue);
     setInputValue("");
   };
+
+  const toggleCompleteTodo = (id) => () => {
+    const targetTodoIndex = todos.findIndex((todo) => todo.id === id);
+
+    const newTodos = [...todos];
+    const isTodoDone = newTodos[targetTodoIndex].isDone;
+
+    newTodos[targetTodoIndex].isDone = !isTodoDone;
+
+    setTodos(newTodos);
+  };
+
+  const todosList = todos
+    .filter(({ isArchived }) => !isArchived)
+    .map(({ id, title, isDone }) => (
+      <li key={id} className={`todo ${isDone && "-done"}`}>
+        <header
+          className="todo__title"
+          onClick={toggleCompleteTodo(id)}
+          role="button"
+        >
+          {title}
+        </header>
+
+        <button
+          title="Archive"
+          className="todo__action"
+          // onClick={archiveTodo(id)}
+        >
+          <IconArchive />
+        </button>
+
+        <button
+          title="Remove"
+          className="todo__action"
+          // onClick={removeTodo(id)}
+        >
+          <IconTrash />
+        </button>
+      </li>
+    ));
 
   const addTodo = (title) => {
     const newTodo = { title, isArchived: false, isDone: false };
