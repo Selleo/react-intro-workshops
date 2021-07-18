@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Todo } from "./components";
+import { TodosList } from "./components";
 
 // Hi!
 
@@ -61,7 +61,7 @@ const App = () => {
     setTodos(newTodos);
   };
 
-  const archiveTodo = (id) => () => {
+  const toggleArchiveTodo = (id) => () => {
     const targetTodoIndex = todos.findIndex((todo) => todo.id === id);
 
     const newTodos = [...todos];
@@ -82,19 +82,10 @@ const App = () => {
     setTodos(newTodos);
   };
 
-  const todosList = todos
-    .filter(({ isArchived }) => !isArchived)
-    .map((todo) => (
-      <Todo
-        todo={todo}
-        toggleCompleteTodo={toggleCompleteTodo}
-        archiveTodo={archiveTodo}
-        removeTodo={removeTodo}
-      />
-    ));
-
   const addTodo = (title) => {
-    const newTodo = { title, isArchived: false, isDone: false };
+    const id = Math.floor(Math.random() * 10000);
+
+    const newTodo = { id, title, isArchived: false, isDone: false };
 
     setTodos((oldTodos) => [newTodo, ...oldTodos]);
   };
@@ -119,7 +110,12 @@ const App = () => {
         <button className="main__form-submit">Add Todo</button>
       </form>
 
-      <ul className="todos__wrapper">{todosList}</ul>
+      <TodosList
+        todos={todos}
+        toggleArchiveTodo={toggleArchiveTodo}
+        toggleCompleteTodo={toggleCompleteTodo}
+        removeTodo={removeTodo}
+      />
     </div>
   );
 };

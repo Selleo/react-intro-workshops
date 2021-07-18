@@ -3,7 +3,7 @@ import { IconArchive, IconTrash } from "@tabler/icons";
 const Todo = ({
   todo: { id, title, isDone },
   toggleCompleteTodo,
-  archiveTodo,
+  toggleArchiveTodo,
   removeTodo,
 }) => {
   return (
@@ -16,10 +16,12 @@ const Todo = ({
         {title}
       </header>
 
+      <span className="todo__id">{id}</span>
+
       <button
         title="Archive"
         className="todo__action"
-        onClick={archiveTodo(id)}
+        onClick={toggleArchiveTodo(id)}
       >
         <IconArchive />
       </button>

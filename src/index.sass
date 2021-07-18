@@ -83,6 +83,7 @@ button
     display: flex
 
 .todo
+  position: relative
   list-style: none
   background-color: $gray-50
   margin-top: .75rem
@@ -97,6 +98,23 @@ button
 
   &__title
     cursor: pointer
+    padding-left: .5rem
+
+  &__id
+    position: absolute
+    left: -.75rem
+    top: -.5rem
+    background-color: $gray-500
+    font-size: .5rem
+    font-weight: 700
+    color: white
+    height: 2rem
+    width: 2rem
+    display: flex
+    align-items: center
+    justify-content: center
+    line-height: 0
+    border-radius: 100px
 
   &__action
     display: flex
