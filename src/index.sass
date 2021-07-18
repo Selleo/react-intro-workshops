@@ -21,6 +21,10 @@ body
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
+ul,li
+  margin: 0
+  padding: 0
+
 .main
   &__wrapper
     display: flex
@@ -55,6 +59,23 @@ body
     color: $gray-50
     font-weight: 500
     background-color: $gray-500
-    border: none
+    border: 1px solid transparent
     border-radius: .5rem
     margin-left: .5rem
+    cursor: pointer
+
+.todos
+  &__wrapper
+    flex: 1
+    flex-direction: column
+    margin-top: 1rem
+    width: 90%
+    max-width: 600px
+    display: flex
+
+.todo
+  list-style: none
+  background-color: $gray-50
+  margin-top: .75rem
+  border-radius: .5rem
+  padding: 1rem 1.25rem

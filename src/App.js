@@ -27,7 +27,7 @@ const App = () => {
         Here you can store all the things you need to complete
       </p>
 
-      <div className="main__form-wrapper">
+      <form className="main__form-wrapper">
         <input
           type="text"
           className="main__form-input"
@@ -35,7 +35,13 @@ const App = () => {
         />
 
         <button className="main__form-submit">Add Todo</button>
-      </div>
+      </form>
+
+      <ul className="todos__wrapper">
+        {todos.map(({ title }) => (
+          <li className="todo">{title}</li>
+        ))}
+      </ul>
     </div>
   );
 };
