@@ -60,6 +60,27 @@ const App = () => {
     setTodos(newTodos);
   };
 
+  const archiveTodo = (id) => () => {
+    const targetTodoIndex = todos.findIndex((todo) => todo.id === id);
+
+    const newTodos = [...todos];
+    const isTodoArchived = newTodos[targetTodoIndex].isArchived;
+
+    newTodos[targetTodoIndex].isArchived = !isTodoArchived;
+
+    setTodos(newTodos);
+  };
+
+  const removeTodo = (id) => () => {
+    const targetTodoIndex = todos.findIndex((todo) => todo.id === id);
+
+    const newTodos = [...todos];
+
+    newTodos.splice(targetTodoIndex, 1);
+
+    setTodos(newTodos);
+  };
+
   const todosList = todos
     .filter(({ isArchived }) => !isArchived)
     .map(({ id, title, isDone }) => (
@@ -75,7 +96,7 @@ const App = () => {
         <button
           title="Archive"
           className="todo__action"
-          // onClick={archiveTodo(id)}
+          onClick={archiveTodo(id)}
         >
           <IconArchive />
         </button>
@@ -83,7 +104,7 @@ const App = () => {
         <button
           title="Remove"
           className="todo__action"
-          // onClick={removeTodo(id)}
+          onClick={removeTodo(id)}
         >
           <IconTrash />
         </button>
