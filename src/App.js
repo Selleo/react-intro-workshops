@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IconArchive, IconTrash } from "@tabler/icons";
+
+import { Todo } from "./components";
 
 // Hi!
 
@@ -83,32 +84,13 @@ const App = () => {
 
   const todosList = todos
     .filter(({ isArchived }) => !isArchived)
-    .map(({ id, title, isDone }) => (
-      <li key={id} className={`todo ${isDone && "-done"}`}>
-        <header
-          className="todo__title"
-          onClick={toggleCompleteTodo(id)}
-          role="button"
-        >
-          {title}
-        </header>
-
-        <button
-          title="Archive"
-          className="todo__action"
-          onClick={archiveTodo(id)}
-        >
-          <IconArchive />
-        </button>
-
-        <button
-          title="Remove"
-          className="todo__action"
-          onClick={removeTodo(id)}
-        >
-          <IconTrash />
-        </button>
-      </li>
+    .map((todo) => (
+      <Todo
+        todo={todo}
+        toggleCompleteTodo={toggleCompleteTodo}
+        archiveTodo={archiveTodo}
+        removeTodo={removeTodo}
+      />
     ));
 
   const addTodo = (title) => {
