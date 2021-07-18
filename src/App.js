@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 // Hi!
 
 // We'll be creating a "Todo App", which is a well-known app type
@@ -6,19 +8,27 @@
 // We will go through slides and build the app together during the
 // React intro workshops at Selleo.
 
-const todos = [
-  { title: "Learn ReactJS", isDone: false, isArchived: false },
-  { title: "Attend ReactJS workshops", isDone: true, isArchived: false },
-  { title: "Learn Ruby on Rails", isDone: true, isArchived: false },
-  { title: "Attend Ruby on Rails workshops", isDone: true, isArchived: false },
-  {
-    title: "This one shouldn't be visible - archived",
-    isDone: true,
-    isArchived: true,
-  },
-];
+const initialState = {
+  todos: [
+    { title: "Learn ReactJS", isDone: false, isArchived: false },
+    { title: "Attend ReactJS workshops", isDone: true, isArchived: false },
+    { title: "Learn Ruby on Rails", isDone: true, isArchived: false },
+    {
+      title: "Attend Ruby on Rails workshops",
+      isDone: true,
+      isArchived: false,
+    },
+    {
+      title: "This one shouldn't be visible - archived",
+      isDone: true,
+      isArchived: true,
+    },
+  ],
+};
 
 const App = () => {
+  const [todos] = useState(initialState.todos);
+
   const todosList = todos
     .filter(({ isArchived }) => !isArchived)
     .map(({ title, isDone }) => (
