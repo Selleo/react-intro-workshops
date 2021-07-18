@@ -21,7 +21,9 @@ const todos = [
 const App = () => {
   const todosList = todos
     .filter(({ isArchived }) => !isArchived)
-    .map(({ title }) => <li className="todo">{title}</li>);
+    .map(({ title, isDone }) => (
+      <li className={`todo ${isDone && "-done"}`}>{title}</li>
+    ));
 
   return (
     <div className="main__wrapper">
