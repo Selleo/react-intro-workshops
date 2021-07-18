@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { groupBy } from "lodash";
+
 import { TodosList } from "./components";
 
 // Hi!
@@ -90,6 +92,14 @@ const App = () => {
     setTodos((oldTodos) => [newTodo, ...oldTodos]);
   };
 
+  const groupTodoStrategy = (todo) =>
+    todo.isArchived ? "archivedTodos" : "unarchivedTodos";
+
+  const { archivedTodos = [], unarchivedTodos = [] } = groupBy(
+    todos,
+    groupTodoStrategy
+  );
+
   return (
     <div className="main__wrapper">
       <h1 className="main__title">Todo App</h1>
@@ -111,11 +121,25 @@ const App = () => {
       </form>
 
       <TodosList
-        todos={todos}
+        todos={unarchivedTodos}
         toggleArchiveTodo={toggleArchiveTodo}
         toggleCompleteTodo={toggleCompleteTodo}
         removeTodo={removeTodo}
       />
+
+      {!!archivedTodos.length && (
+        <>
+          <h2 className="main__heading">Archived Todos</h2>
+
+          <TodosList
+            variant="archived"
+            todos={archivedTodos}
+            toggleArchiveTodo={toggleArchiveTodo}
+            toggleCompleteTodo={toggleCompleteTodo}
+            removeTodo={removeTodo}
+          />
+        </>
+      )}
     </div>
   );
 };
