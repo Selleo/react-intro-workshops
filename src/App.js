@@ -19,6 +19,10 @@ const todos = [
 ];
 
 const App = () => {
+  const todosList = todos
+    .filter(({ isArchived }) => !isArchived)
+    .map(({ title }) => <li className="todo">{title}</li>);
+
   return (
     <div className="main__wrapper">
       <h1 className="main__title">Todo App</h1>
@@ -37,11 +41,7 @@ const App = () => {
         <button className="main__form-submit">Add Todo</button>
       </form>
 
-      <ul className="todos__wrapper">
-        {todos.map(({ title }) => (
-          <li className="todo">{title}</li>
-        ))}
-      </ul>
+      <ul className="todos__wrapper">{todosList}</ul>
     </div>
   );
 };
