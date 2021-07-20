@@ -1,19 +1,7 @@
 import Todo from "./Todo";
 
-const TodosList = ({
-  todos,
-  toggleCompleteTodo,
-  toggleArchiveTodo,
-  removeTodo,
-}) => {
-  const todosList = todos.map((todo) => (
-    <Todo
-      todo={todo}
-      toggleCompleteTodo={toggleCompleteTodo}
-      toggleArchiveTodo={toggleArchiveTodo}
-      removeTodo={removeTodo}
-    />
-  ));
+const TodosList = ({ todos }) => {
+  const todosList = todos.map((todo) => <Todo todo={todo} />);
 
   return <ul className="todos__wrapper">{todosList}</ul>;
 };

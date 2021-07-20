@@ -1,16 +1,20 @@
 import { IconArchive, IconTrash } from "@tabler/icons";
+import { useDispatch } from "react-redux";
 
-const Todo = ({
-  todo: { id, title, isDone },
-  toggleCompleteTodo,
-  toggleArchiveTodo,
-  removeTodo,
-}) => {
+import * as todos from "store/todos";
+
+const Todo = ({ todo: { id, title, isDone } }) => {
+  const dispatch = useDispatch();
+
+  const toggleCompleteTodo = () => dispatch(todos.toggleCompleteTodo(id));
+  const toggleArchiveTodo = () => dispatch(todos.toggleArchiveTodo(id));
+  const removeTodo = () => dispatch(todos.removeTodo(id));
+
   return (
     <li key={id} className={`todo ${isDone && "-done"}`}>
       <header
         className="todo__title"
-        onClick={toggleCompleteTodo(id)}
+        onClick={toggleCompleteTodo}
         role="button"
       >
         {title}
@@ -21,12 +25,12 @@ const Todo = ({
       <button
         title="Archive"
         className="todo__action"
-        onClick={toggleArchiveTodo(id)}
+        onClick={toggleArchiveTodo}
       >
         <IconArchive />
       </button>
 
-      <button title="Remove" className="todo__action" onClick={removeTodo(id)}>
+      <button title="Remove" className="todo__action" onClick={removeTodo}>
         <IconTrash />
       </button>
     </li>
