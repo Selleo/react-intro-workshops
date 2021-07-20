@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { groupBy } from "lodash";
 
@@ -12,33 +12,8 @@ import { TodosList } from "./components";
 // We will go through slides and build the app together during the
 // React intro workshops at Selleo.
 
-const initialState = {
-  todos: [
-    { id: 1, title: "Learn ReactJS", isDone: false, isArchived: false },
-    {
-      id: 2,
-      title: "Attend ReactJS workshops",
-      isDone: true,
-      isArchived: false,
-    },
-    { id: 3, title: "Learn Ruby on Rails", isDone: true, isArchived: false },
-    {
-      id: 4,
-      title: "Attend Ruby on Rails workshops",
-      isDone: true,
-      isArchived: false,
-    },
-    {
-      id: 5,
-      title: "This one shouldn't be visible - archived",
-      isDone: true,
-      isArchived: true,
-    },
-  ],
-};
-
 const App = () => {
-  const [todos, setTodos] = useState(initialState.todos);
+  const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
@@ -61,6 +36,8 @@ const App = () => {
     newTodos[targetTodoIndex].isDone = !isTodoDone;
 
     setTodos(newTodos);
+
+    saveToLS("todos", newTodos);
   };
 
   const toggleArchiveTodo = (id) => () => {
@@ -72,6 +49,8 @@ const App = () => {
     newTodos[targetTodoIndex].isArchived = !isTodoArchived;
 
     setTodos(newTodos);
+
+    saveToLS("todos", newTodos);
   };
 
   const removeTodo = (id) => () => {
@@ -82,6 +61,8 @@ const App = () => {
     newTodos.splice(targetTodoIndex, 1);
 
     setTodos(newTodos);
+
+    saveToLS("todos", newTodos);
   };
 
   const addTodo = (title) => {
@@ -89,11 +70,41 @@ const App = () => {
 
     const newTodo = { id, title, isArchived: false, isDone: false };
 
-    setTodos((oldTodos) => [newTodo, ...oldTodos]);
+    const newTodos = [newTodo, ...todos];
+
+    setTodos(newTodos);
+
+    saveToLS("todos", newTodos);
   };
 
   const groupTodoStrategy = (todo) =>
     todo.isArchived ? "archivedTodos" : "unarchivedTodos";
+
+  const saveToLS = (key, value) => {
+    const stringifiedValue = JSON.stringify(value);
+
+    localStorage.setItem(key, stringifiedValue);
+  };
+
+  const getFromLS = (key) => {
+    const dataFromLS = localStorage.getItem(key);
+
+    if (!dataFromLS) {
+      throw new Error("No data present in localStorage");
+    }
+
+    return JSON.parse(dataFromLS);
+  };
+
+  useEffect(() => {
+    try {
+      const todosFromLS = getFromLS("todos");
+
+      setTodos(todosFromLS);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const { archivedTodos = [], unarchivedTodos = [] } = groupBy(
     todos,
