@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 
 import { groupBy } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
 
 import { TodosList } from "./components";
+
+import { getTodos, addTodo } from "./store/todos";
 
 // Hi!
 
@@ -13,8 +16,9 @@ import { TodosList } from "./components";
 // React intro workshops at Selleo.
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const dispatch = useDispatch();
+  const todos = useSelector(getTodos);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -23,7 +27,12 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    addTodo(inputValue);
+    const id = Math.floor(Math.random() * 10000);
+
+    const newTodo = { id, title: inputValue, isArchived: false, isDone: false };
+
+    dispatch(addTodo(newTodo));
+
     setInputValue("");
   };
 
@@ -35,7 +44,7 @@ const App = () => {
 
     newTodos[targetTodoIndex].isDone = !isTodoDone;
 
-    setTodos(newTodos);
+    // setTodos(newTodos);
 
     saveToLS("todos", newTodos);
   };
@@ -48,7 +57,7 @@ const App = () => {
 
     newTodos[targetTodoIndex].isArchived = !isTodoArchived;
 
-    setTodos(newTodos);
+    // setTodos(newTodos);
 
     saveToLS("todos", newTodos);
   };
@@ -60,19 +69,7 @@ const App = () => {
 
     newTodos.splice(targetTodoIndex, 1);
 
-    setTodos(newTodos);
-
-    saveToLS("todos", newTodos);
-  };
-
-  const addTodo = (title) => {
-    const id = Math.floor(Math.random() * 10000);
-
-    const newTodo = { id, title, isArchived: false, isDone: false };
-
-    const newTodos = [newTodo, ...todos];
-
-    setTodos(newTodos);
+    // setTodos(newTodos);
 
     saveToLS("todos", newTodos);
   };
@@ -100,7 +97,7 @@ const App = () => {
     try {
       const todosFromLS = getFromLS("todos");
 
-      setTodos(todosFromLS);
+      // setTodos(todosFromLS);
     } catch (err) {
       console.log(err);
     }
